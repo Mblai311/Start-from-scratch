@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/icon.png" type="Texture" id=2]
+[ext_resource path="res://TextConversations/Dialog_Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://TextConversations/Dialog_Player_2.gd" type="Script" id=4]
+
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Area2D
+
+
+
+func _ready() -> void:
+	#Walk to the right
+	#$AnimationPlayer.play(\"walk\")
+	#yield($AnimationPlayer, \"animation_finished\")
+	
+	#Show Dialog Box
+	$Dialog_Player_2/Dialog_Box.visible = true
+
+
+
+	
+
+	
+
+"
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 34.0384, 31.3687 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "walk"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 417, 80 ), Vector2( 656, 96 ) ]
+}
+
+[node name="Enemy_2" type="Area2D"]
+position = Vector2( 417, 80 )
+script = SubResource( 3 )
+
+[node name="icon" type="Sprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 56, 120 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 57.4, 120 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/walk = SubResource( 2 )
+
+[node name="Dialog_Player_2" parent="." instance=ExtResource( 3 )]
+pause_mode = 1
+script = ExtResource( 4 )
+
+[node name="Dialog_Box" parent="Dialog_Player_2" index="0"]
+margin_left = 248.0
+margin_top = -208.0
+margin_right = 248.0
+margin_bottom = -208.0
+[connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]
+
+[editable path="Dialog_Player_2"]
